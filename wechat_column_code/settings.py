@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '*rwtqgq-dqkbq7=^ygu7(g+qx*r#mtvfyjcoh!b5lx%o$ys9z('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').upper() == 'TRUE'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,7 +43,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -75,8 +75,15 @@ WSGI_APPLICATION = 'wechat_column_code.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('WECHAT_BLOG_DATABASE_NAME', 'wechat_blog'),
+        'USER': os.environ.get('WECHAT_BLOG_DATABASE_USER', 'postgres'),
+        'PASSWORD': os.environ.get('WECHAT_BLOG_DATABASE_PASSWORD', '123456'),
+        'HOST': os.environ.get('WECHAT_BLOG_DATABASE_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('WECHAT_BLOG_DATABASE_PORT', '5432'),
+        'TEST': {
+            'NAME': 'test_device_activation',
+        }
     }
 }
 
@@ -105,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -118,3 +125,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# 扩展配置文件
+CONFIG = __import__('wechat_column_code.config', globals(), locals(), ['*'])
