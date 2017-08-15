@@ -1,0 +1,17 @@
+.DS_Store
+.python-version
+.settings
+.project
+.pydevproject
+_book
+node_modules
+
+__pycache__
+
+.ropeproject
+*.pyc
+.idea/*
+.vscode/*
+*.sqlite3
+*.log
+00[0-9][0-9]_*.py
