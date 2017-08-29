@@ -19,7 +19,8 @@ class WechatUser(AbstractBaseUser, PermissionsMixin):
                           else ASCIIUsernameValidator())
 
     # 字段
-    openid = models.CharField(_("本公众号加密ID"), max_length=50, primary_key=True)
+    openid = models.CharField(_("本公众号加密ID,命令行创建时需要指定一个(可修改)"),
+                              max_length=50, primary_key=True)
     unionid = models.CharField(_("多公众号共同ID"), max_length=50,
                                null=True, db_index=True)
     groupid = models.SmallIntegerField(_("用户所在用户组ID"), default=0)
@@ -48,6 +49,7 @@ class WechatUser(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     # 用户名字段设定为openid
     USERNAME_FIELD = 'openid'
+    REQUIRED_FIELDS = ['systemid']
 
     class Meta:
         verbose_name = _('微信用户')
