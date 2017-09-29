@@ -1,3 +1,5 @@
 django==1.11.4
 psycopg2==2.7.3
 pytz
+wechat-sdk
+bpython
